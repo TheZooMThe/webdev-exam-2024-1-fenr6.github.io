@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Корзина</title>
+  <link rel="stylesheet" href="styles_cart.css">
+</head>
+<body>
+  <!-- Хедер -->
+  <header class="header">
+    <div class="logo">Логотип</div>
+    <div class="header-icons">
+        <a href="index.html" class="cart-icon">📄</a>
+        <a href="lk.html" class="profile-icon">👤</a>
+    </div>
+</header>
+
+  <!-- Контейнер для всех уведомлений -->
+  <div class="notifications-container">
+  </div>
+  
+
+  <!-- Основной контент -->
+  <main class="container">
+    <!-- Блок корзины -->
+    <section class="cart">
+      <h1>Корзина</h1>
+      <div class="products-grid"></div>
+    </section>
+
+    <!-- Блок оформления заказа -->
+    <section class="checkout">
+      <h2>Оформление заказа</h2>
+      <form>
+        <div class="form-group">
+          <label for="name">Имя</label>
+          <input type="text" id="name" name="name" placeholder="Иванов Иван">
+        </div>
+        <div class="form-group">
+          <label for="phone">Номер телефона</label>
+          <input type="text" id="phone" name="phone" placeholder="+74952230523">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="example@mospolytech.ru">
+        </div>
+        <div class="form-group">
+          <input type="checkbox" id="subscribe" name="subscribe">
+          <label for="subscribe">Подписаться на рассылку</label>
+        </div>
+        <div class="form-group">
+          <label for="address">Адрес доставки</label>
+          <input type="text" id="address" name="address" placeholder="ул. Большая Семёновская, 38">
+        </div>
+        <div class="form-group">
+          <label for="date">Дата доставки</label>
+          <input type="date" id="date" name="date">
+        </div>
+        <div class="form-group">
+          <label for="time">Временной интервал доставки</label>
+          <select id="time" name="time">
+            <option value="08:00-12:00">08:00-12:00</option>
+            <option value="12:00-14:00">12:00-14:00</option>
+            <option value="14:00-18:00">14:00-18:00</option>
+            <option value="18:00-22:00">18:00-22:00</option>
+        </select>
+        </div>
+        <div class="form-group">
+          <label for="comment">Комментарий</label>
+          <textarea id="comment" name="comment" rows="4" placeholder="Введите ваш комментарий"></textarea>
+        </div>
+        <div class="form-summary">
+          <p>Итоговая стоимость: <strong>6500 ₽</strong></p>
+          <p>(стоимость доставки <span>500 ₽</span>)</p>
+        </div>
+        <div class="form-actions">
+          <button type="reset">Сбросить</button>
+          <button type="submit">Оформить</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Футер -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 Название компании</p>
+    </div>
+  </footer>
+  <script src="js/cart.js"></script>
+</body>
+</html>

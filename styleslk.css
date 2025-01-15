@@ -1,0 +1,454 @@
+html, body{
+    margin: 0px;
+    padding: 0px;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+}
+
+/* Общие стили */
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+/* Хедер */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #007bff;
+    color: white;
+}
+
+main{
+    flex-grow: 1;
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+header .search-bar {
+    flex: 1;
+    margin: 0 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+header .header-icons a {
+    margin-left: 10px;
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+header .header-icons a:hover {
+    color: #ffdd57;
+}
+
+.main-cont{
+    margin: 2%;
+}
+/* Общая область уведомлений */
+.notifications-container {
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Стили для отдельного уведомления */
+.notifications {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    opacity: 0.95;
+    min-width: 300px;
+    position: relative;
+}
+
+/* Типы уведомлений */
+.notifications.success {
+    background: #d4edda; /* Светло-зелёный фон */
+    color: #155724; /* Тёмно-зелёный текст */
+    border: 1px solid #c3e6cb;
+}
+
+.notifications.error {
+    background: #f8d7da; /* Светло-красный фон */
+    color: #721c24; /* Тёмно-красный текст */
+    border: 1px solid #f5c6cb;
+}
+
+.notifications.info {
+    background: #d1ecf1; /* Светло-синий фон */
+    color: #0c5460; /* Тёмно-синий текст */
+    border: 1px solid #bee5eb;
+}
+
+/* Скрытые уведомления */
+.notifications.hidden {
+    display: none;
+}
+
+/* Кнопка закрытия */
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: inherit; /* Совпадает с текстом уведомления */
+    cursor: pointer;
+    padding: 5px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0.8;
+}
+
+.close-btn:hover {
+    opacity: 1;
+}
+
+/* Общий стиль для модального окна */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* затемнение фона */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* поверх всех элементов */
+}
+
+/* Контент модального окна */
+.modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px 30px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    position: relative;
+}
+
+/* Заголовок модального окна */
+.modal-content h2 {
+    margin: 0 0 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Кнопка закрытия */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #999;
+    border: none;
+    background: none;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+
+/* Стили для текста и данных */
+.modal-content p {
+    margin: 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.modal-content strong {
+    display: inline-block;
+    margin-bottom: 5px;
+    width: 117.64px;
+}
+
+/* Список товаров */
+.modal-content ul {
+    padding: 0;
+    margin: 10px 0;
+    list-style: none;
+}
+
+.modal-content ul li {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Кнопка "Ок" */
+.modal-content button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+
+/* Стиль для модального окна редактирования */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal-content h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.modal-content form label {
+    display: flex
+;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.modal-content label strong {
+    display: inline-block;
+    margin-bottom: 5px;
+    width: 170px;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="date"],
+.modal-content input[type="time"],
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.modal-content textarea {
+    resize: vertical;
+    height: 60px;
+}
+
+.modal-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.modal-content ul li {
+    background: #f5f5f5;
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal-content .form-actions {
+    margin-top: 15px;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cost-label {
+    font-weight: bold;
+    font-size: 16px;
+
+}
+
+.cost-div{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cost-value {
+    font-size: 16px;
+
+}
+.modal-content .form-actions button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 14px;
+    height: 3rem;
+    width: 7rem;
+}
+
+.modal-content .form-actions button.cls-btn {
+    background-color: #f44336;
+    margin: 0 0 0 10px;
+}
+
+.modal-content .form-actions button:hover {
+    opacity: 0.9;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+
+.del-modal-buttons{
+    display: flex;
+}
+
+
+
+  
+    /* Футер */
+    .footer {
+        background: #fff;
+        text-align: center;
+        padding: 15px 0;
+        margin-top: 40px;
+        border-top: 1px solid #ccc;
+      }
+      
+      .footer p {
+        font-size: 14px;
+        color: #666;
+      }
+      
+
+/* Основной контейнер таблицы */
+.order-table {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Заголовок таблицы */
+.table-header {
+    background-color: #f9f9f9;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+}
+
+/* Тело таблицы */
+.table-body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Строка таблицы */
+.table-row {
+    display: flex;
+    border-bottom: 1px solid black;
+    align-items: center;
+    height: 60px; /* Фиксированная высота строк */
+}
+
+/* Ячейка таблицы */
+.table-cell {
+    flex: 1;
+    padding: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Настройка ширины столбцов */
+.table-cell:nth-child(1) { flex: 0.5; } /* Колонка "№" */
+.table-cell:nth-child(2) { flex: 1.5; } /* Колонка "Дата оформления" */
+.table-cell:nth-child(3) { flex: 3; } /* Колонка "Состав заказа" */
+.table-cell:nth-child(4) { flex: 1; } /* Колонка "Стоимость" */
+.table-cell:nth-child(5) { flex: 1; } /* Колонка "Время доставки" */
+.table-cell:nth-child(6) { flex: 1; display: flex; gap: 10px; justify-content: center; }
+
+/* Стили для кнопок */
+.view-btn, .edit-btn, .delete-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+}
+
+.view-btn { color: #17a2b8; }
+.edit-btn { color: #ffc107; }
+.delete-btn { color: #dc3545; }
+
+/* Чередование цвета строк */
+.table-body .table-row:nth-child(even) {
+    background-color: #f2f2f2;
+}

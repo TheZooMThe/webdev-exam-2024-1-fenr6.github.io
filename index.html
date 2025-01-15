@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интернет-магазин</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">Логотип</div>
+        <input type="text" class="search-bar" placeholder="Введите запрос">
+        <div class="header-icons">
+            <a href="cart.html" class="cart-icon">🛒</a>
+            <a href="lk.html" class="profile-icon">👤</a>
+        </div>
+    </header>
+
+  <!-- Контейнер для всех уведомлений -->
+  <div class="notifications-container">
+  </div>
+  
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <aside class="sidebar">
+            <form class="filter-form">
+                <h3>Категории</h3>
+                <label><input type="checkbox"> Категория 1</label>
+                <label><input type="checkbox"> Категория 2</label>
+                <label><input type="checkbox"> Категория 3</label>
+                <label><input type="checkbox"> Категория 4</label>
+                <label><input type="checkbox"> Категория 5</label>
+
+                <h3>Стоимость</h3>
+                <label>От <input type="number" min="0" placeholder="100"></label>
+                <label>До <input type="number" min="0" placeholder="5000"></label>
+
+                <label><input type="checkbox"> Только товары со скидками</label>
+                <button type="submit" class="apply-button">Применить</button>
+            </form>
+        </aside>
+
+        <!-- Catalog -->
+        <section class="catalog">
+            <div class="catalog-header">
+                <h2>Каталог</h2>
+                <select class="sort-select">
+                    <option value="rating_desc">По убыванию рейтинга</option>
+                    <option value="rating_asc">По возрастанию рейтинга</option>
+                    <option value="price_desc">По убыванию цены</option>
+                    <option value="price_asc">По возрастанию цены</option>
+                </select>
+            </div>
+            <div class="products-grid"></div>
+            <button class="load-more">Загрузить ещё</button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 Название компании</p>
+    </footer>
+    <script src="js/goods_load.js"></script>
+</body>
+</html>
