@@ -305,7 +305,7 @@ orderForm.addEventListener("submit", async (event) => {
             localStorage.removeItem("selectedGoods");
             await loadCartGoods();
 
-            window.location.href = "/index.html";
+            window.location.href = "webdev-exam-2024-1-fenr6.github.io/index.html";
         } else {
             showNotification("Ошибка при создании заказа. Попробуйте снова.", 
                 "error");
