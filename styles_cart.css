@@ -61,7 +61,7 @@ header .header-icons a:hover {
   
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Сетка из 4 колонок */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Сетка из 4 колонок */
   gap: 20px; /* Расстояние между карточками */
   padding: 20px; /* Внутренний отступ для сетки */
   justify-items: center
@@ -85,6 +85,31 @@ header .header-icons a:hover {
 .product-card > p {
   margin: 5px;
 
+}
+
+
+.product-rating {
+  font-size: 14px;
+}
+
+.product-rating .rating-number {
+  color: #000; 
+}
+
+.product-rating .rating-stars {
+  color: #ffdd57; 
+}
+
+.discount-percentage{
+  color: red;
+}
+.actual_discount{
+  color: red;
+}
+
+.product-price {
+  margin: 10px 0;
+  font-size: 16px;
 }
 
 .product-card > h3 {
@@ -144,7 +169,6 @@ header .header-icons a:hover {
 
 .product-rating {
   font-size: 14px;
-  color: #ffdd57;
 }
 
 .product-price {
@@ -163,6 +187,8 @@ header .header-icons a:hover {
   background-color: #e8f5e9;
   transition: all 0.3s ease;
 }
+
+.actual-pcs{color: red;}
 
 .product-price .discount {
   color: red;
@@ -333,4 +359,38 @@ header .header-icons a:hover {
     font-size: 14px;
     color: #666;
   }
-  
+  /* Адаптивность */
+@media (max-width: 768px) {
+  .main-content {
+      flex-direction: column;
+  }
+
+  .sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #ddd;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(1, 1fr); /* 1 колонка на мобильных устройствах */
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 колонки на планшетах */
+  }
+}
+
+@media only screen and (min-width: 1201px) and (max-width: 1699px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 колонки на экранах среднего размера */
+  }
+}
+
+@media only screen and (min-width: 1700px) {
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr); /* 4 колонки на больших экранах */
+  }
+}

@@ -130,10 +130,26 @@ function calculateTotalCost() {
 
     const deliveryElement = document.querySelector(".form-summary span");
     if (deliveryElement) {
-        deliveryElement.textContent = `${totalCost} ₽`;
+        deliveryElement.textContent = `${deliveryCost} ₽`;
     }
 }
 
+// Helper function to render stars for the rating
+function renderStars(rating) {
+    const roundedRating = Math.round(rating);
+    const fullStars = roundedRating;
+    const emptyStars = 5 - fullStars;
+
+    // Wrap the number and stars separately for styling
+    return `<span style="color: black;">${rating}</span> 
+            <span style="color: #ffdd57;">${'★'.repeat(fullStars) + 
+                '☆'.repeat(emptyStars)}</span>`;
+}
+
+// Helper function to calculate discount percentage
+function calculateDiscountPercentage(actualPrice, discountPrice) {
+    return Math.round(((actualPrice - discountPrice) / actualPrice) * 100);
+}
 
 // Функция для рендера товаров
 function renderGoods(goods) {
@@ -167,19 +183,27 @@ function renderGoods(goods) {
         category.textContent = `Категория: ${item.main_category}`;
 
         const rating = document.createElement("p");
-        rating.textContent = `Рейтинг: ${item.rating}`;
+        rating.className = "product-rating";
+        rating.innerHTML = `Рейтинг: ${renderStars(item.rating)}`;
 
         const price = document.createElement("p");
         const actualPrice = `${item.actual_price} ₽`;
         const discountPrice = item.discount_price
             ? `<span class="discount-price">${item.discount_price} ₽</span>`
             : null;
+        const discountPercentage = item.discount_price
+            ? `<span class="discount-percentage">-
+            ${calculateDiscountPercentage(item.actual_price, 
+        item.discount_price)}%</span>`
+            : "";
 
         if (!item.discount_price) {
             price.classList.add("discount-price");
             price.innerHTML = actualPrice;
         } else {
-            price.innerHTML = `${discountPrice} <s>${actualPrice}</s>`;
+            price.innerHTML = `
+            ${discountPrice} <s class="actual-pcs">${actualPrice}</s>  
+            ${discountPercentage}`;
         }
 
         const removeButton = document.createElement("button");

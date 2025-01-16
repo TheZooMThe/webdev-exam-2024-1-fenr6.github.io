@@ -8,7 +8,6 @@ body {
     flex-direction: column;
     min-height: 100vh;
     background-color: #f7f7f7;
-    color: #333;
 }
 
 /* Хедер */
@@ -192,7 +191,21 @@ header .header-icons a:hover {
 
 .product-rating {
     font-size: 14px;
-    color: #ffdd57;
+}
+
+.product-rating .rating-number {
+    color: #000; 
+}
+
+.product-rating .rating-stars {
+    color: #ffdd57; 
+}
+
+.discount-percentage{
+    color: red;
+}
+.actual_discount{
+    color: red;
 }
 
 .product-price {

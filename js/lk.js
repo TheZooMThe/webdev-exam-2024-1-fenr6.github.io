@@ -1,4 +1,4 @@
-function showNotification(message, type = 'info', timeout = 500000) {
+function showNotification(message, type = 'info', timeout = 5000) {
     // Найти область для уведомлений
     const notificationContainer = 
     document.querySelector('.notifications-container');
@@ -31,6 +31,13 @@ function showNotification(message, type = 'info', timeout = 500000) {
         }, timeout);
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('orderDeleted') === 'true') {
+        showNotification('Заказ успешно удалён', 'success');
+        localStorage.removeItem('orderDeleted'); // Clear the flag
+    }
+});
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -87,7 +94,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Возвращаем итоговую стоимость заказа
         return totalCost;
     }
-
+    async function fetchGoods() {
+        try {
+            const response = await fetch(GOODS_API_URL);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const goods = await response.json();
+            goods.forEach(good => {
+                goodsMap[good.id] = { name: good.name, price: good.price };
+            });
+        } catch (error) {
+            console.error('Error fetching goods:', error);
+        }
+    }
+    
     // Функция для получения всех товаров
     async function fetchAllGoods() {
         try {
@@ -223,18 +244,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     </label>
     
                     <label><strong>Имя получателя:</strong>
-                        <input type="text" name="full_name" value="
-                        ${order.full_name || ''}" required>
+                        <input type="text" 
+                        name="full_name" value="${order.full_name?.trim() 
+                            || ''}" required>
                     </label>
     
                     <label><strong>Адрес доставки:</strong>
-                        <input type="text" name="delivery_address" value="
-                        ${order.delivery_address || ''}" required>
-                    </label>
+                    <input type="text" 
+                    name="delivery_address" 
+                    value="${order.delivery_address?.trim() || ''}" required>
+                </label>
     
                     <label><strong>Телефон:</strong>
-                        <input type="text" name="phone" value="
-                        ${order.phone || ''}" required>
+                        <input type="text" name="phone" 
+                        value="${order.phone || ''}" required>
                     </label>
     
                     <label><strong>Email:</strong>
@@ -243,23 +266,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     </label>
     
                     <label><strong>Дата доставки:</strong>
-                        <input type="date" name="delivery_date" value="
-                        ${order.delivery_date || ''}" required>
+                    <input type="date" name="delivery_date" 
+                    value="${order.delivery_date?.trim() || ''}" required>
                     </label>
     
                     <label><strong>Интервал доставки:</strong>
                         <select name="delivery_interval" required>
-                            <option value="08:00-12:00" 
-                            ${order.delivery_interval === "08:00-12:00" 
+                            <option 
+                            value="08:00-12:00" ${order.delivery_interval 
+                                === "08:00-12:00" 
         ? "selected" : ""}>08:00-12:00</option>
-                            <option value="12:00-14:00" 
-                            ${order.delivery_interval === "12:00-14:00" 
+                            <option 
+                            value="12:00-14:00" ${order.delivery_interval 
+                                === "12:00-14:00" 
         ? "selected" : ""}>12:00-14:00</option>
-                            <option value="14:00-18:00" 
-                            ${order.delivery_interval === "14:00-18:00" 
+                            <option 
+                            value="14:00-18:00" ${order.delivery_interval === 
+                                "14:00-18:00" 
         ? "selected" : ""}>14:00-18:00</option>
-                            <option value="18:00-22:00" 
-                            ${order.delivery_interval 
+                            <option 
+                            value="18:00-22:00" ${order.delivery_interval 
                                 === "18:00-22:00" ? "selected" 
         : ""}>18:00-22:00</option>
                         </select>
@@ -270,8 +296,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p>${orderCost}₽</p>
                     </div>
                     <label><strong>Комментарий:</strong>
-                        <textarea name="comment">
-                        ${order.comment || ''}</textarea>
+                        <textarea 
+                        name="comment">${order.comment || ''}</textarea>
                     </label>
     
                     <h3>Состав заказа</h3>
@@ -309,12 +335,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
                 try {
                     const saveResponse = await 
-                    fetch(`${BASE_API_URL}/orders/
-                        ${orderId}?api_key=${API_KEY}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(updatedOrder),
-                    });
+                    fetch(
+                        `${BASE_API_URL}/orders/${orderId}?api_key=${API_KEY}`,
+                        {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(updatedOrder),
+                        });
                     if (!saveResponse.ok) {
                         throw new Error(`Ошибка HTTP: ${saveResponse.status}`);
                     }
@@ -340,15 +367,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function deleteOrder(orderId) {
         try {
-            const response = 
-            await 
+            const response = await 
             fetch(`${BASE_API_URL}/orders/${orderId}?api_key=${API_KEY}`, {
-                method: 'DELETE'
+                method: 'DELETE',
             });
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            showNotification('Заказ успешно удалён', 'success');
+    
+            // Set a flag in localStorage before reloading
+            localStorage.setItem('orderDeleted', 'true');
             location.reload();
         } catch (error) {
             console.error('Error deleting order:', error);
@@ -356,6 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Не удалось удалить заказ. Попробуйте позже.', 'error');
         }
     }
+    
 
     function handleDeleteOrder(event) {
         const orderId = event.target.dataset.id;
@@ -402,82 +431,67 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     }
 
-    async function fetchDishes() {
-        try {
-            const response = await fetch(GOODS_API_URL);
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const goods = await response.json();
-            goods.forEach(dish => {
-                goodsMap[dish.id] = { name: dish.name, price: dish.price };
-            });
-        } catch (error) {
-            console.error('Error fetching goods:', error);
-        }
-    }
-    
     // Функция для рендеринга заказов
     async function renderOrders(orders) {
         orders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        
+            
         // Создаём основной контейнер
         const table = document.createElement('div');
         table.classList.add('order-table');
 
         // Создаём заголовок
         table.innerHTML = `
-            <div class="table-header">
-                <div class="table-row">
-                    <div class="table-cell">№</div>
-                    <div class="table-cell">Дата оформления</div>
-                    <div class="table-cell">Состав заказа</div>
-                    <div class="table-cell">Стоимость</div>
-                    <div class="table-cell">Время доставки</div>
-                    <div class="table-cell">Действия</div>
+                <div class="table-header">
+                    <div class="table-row">
+                        <div class="table-cell">№</div>
+                        <div class="table-cell">Дата оформления</div>
+                        <div class="table-cell">Состав заказа</div>
+                        <div class="table-cell">Стоимость</div>
+                        <div class="table-cell">Время доставки</div>
+                        <div class="table-cell">Действия</div>
+                    </div>
                 </div>
-            </div>
-            <div class="table-body"></div>
-        `;
-
+                <div class="table-body"></div>
+            `;
+    
         const tbody = table.querySelector('.table-body');
-
+    
         // Получаем все товары заранее
         const allGoods = await fetchAllGoods();
-
+    
         // Заполняем строки таблицы
         for (const [index, order] of orders.entries()) {
             const items = order.good_ids
                 .map(id => allGoods[id]?.name)
                 .filter(Boolean)
                 .join(', ');
-
+    
             const totalCost = calculateOrderTotalCost(order, allGoods);
-
+    
             // Создаём строку с Flexbox
             const row = document.createElement('div');
             row.classList.add('table-row');
             row.innerHTML = `
-                <div class="table-cell">${index + 1}</div>
-                <div class="table-cell">
-                ${new Date(order.created_at).toLocaleString()}</div>
-                <div class="table-cell">${items || "Нет товаров"}</div>
-                <div class="table-cell">
-                ${totalCost > 0 ? totalCost + "₽" : "Не указано"}</div>
-                <div class="table-cell">${order.delivery_interval}</div>
-                <div class="table-cell action-flex">
+                    <div class="table-cell">${index + 1}</div>
+                    <div class="table-cell">
+                    ${new Date(order.created_at).toLocaleString()}</div>
+                    <div class="table-cell">${items || "Нет товаров"}</div>
+                    <div class="table-cell">
+                    ${totalCost > 0 ? totalCost + "₽" : "Не указано"}</div>
+                    <div class="table-cell">${order.delivery_interval}</div>
+                    <div class="table-cell action-flex">
                     <button class="view-btn" data-id="${order.id}">👁️</button>
                     <button class="edit-btn" data-id="${order.id}">✏️</button>
                     <button class="delete-btn" data-id="${order.id}">🗑️</button>
-                </div>
-            `;
+                    </div>
+                `;
             tbody.appendChild(row);
         }
-
+    
         // Заменяем содержимое контейнера
         orderHistoryGrid.innerHTML = '';
         orderHistoryGrid.appendChild(table);
-
+    
         // Добавляем обработчики событий
         table.querySelectorAll('.view-btn').forEach(button =>
             button.addEventListener('click', handleViewOrder));
@@ -486,8 +500,6 @@ document.addEventListener('DOMContentLoaded', () => {
         table.querySelectorAll('.delete-btn').forEach(button =>
             button.addEventListener('click', handleDeleteOrder));
     }
-
-
     async function fetchOrders() {
         try {
             const response = await fetch(ORDERS_API_URL);
@@ -499,15 +511,15 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error fetching orders:', error);
             orderHistoryGrid.innerHTML = 
-            '<p>Не удалось загрузить заказы. Попробуйте позже.</p>';
+                '<p>Не удалось загрузить заказы. Попробуйте позже.</p>';
         }
     }
-    
     // Инициализация страницы
     async function initializePage() {
-        await fetchDishes(); // Получаем список товаров
+        await fetchGoods(); // Получаем список товаров
         fetchOrders(); // Получаем список заказов
     }
+
     
     initializePage();
     

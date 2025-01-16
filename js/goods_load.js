@@ -70,6 +70,21 @@ function addToLocalStorage(id) {
     }
 }
 
+function renderStars(rating) {
+    const roundedRating = Math.round(rating); 
+    const fullStars = roundedRating;
+    const emptyStars = 5 - fullStars;
+
+    // Wrap the number and stars separately
+    return `<span class="rating-number">
+    ${rating}</span> <span class="rating-stars">
+    ${'★'.repeat(fullStars) + '☆'.repeat(emptyStars)}</span>`;
+}
+
+function calculateDiscountPercentage(actualPrice, discountPrice) {
+    return Math.round(((actualPrice - discountPrice) / actualPrice) * 100);
+}
+
 function renderGoods(goods) {
     const storedIds = JSON.parse(localStorage.getItem("selectedGoods")) || [];
 
@@ -77,7 +92,7 @@ function renderGoods(goods) {
         const card = document.createElement("div");
         card.className = "product-card";
 
-        // Подсветка карточки, если товар уже добавлен
+        // Highlight the card if the item is already added
         if (storedIds.includes(item.id)) {
             card.classList.add("selected");
         }
@@ -93,26 +108,33 @@ function renderGoods(goods) {
         category.textContent = `Категория: ${item.main_category}`;
 
         const rating = document.createElement("p");
-        rating.textContent = `Рейтинг: ${item.rating}`;
+        rating.className = "product-rating";
+        rating.innerHTML = `Рейтинг: 
+        ${renderStars(item.rating)}`;
 
         const price = document.createElement("p");
         const actualPrice = `${item.actual_price} ₽`;
         const discountPrice = item.discount_price
             ? `<span class="discount-price">${item.discount_price} ₽</span>`
             : null;
+        const discountPercentage = item.discount_price
+            ? `<span class="discount-percentage">-
+            ${calculateDiscountPercentage(item.actual_price, 
+        item.discount_price)}%</span>`
+            : "";
 
         price.innerHTML = discountPrice
-            ? `${discountPrice} <s>${actualPrice}</s>`
+            ? `${discountPrice} <s class='actual_discount'>
+            ${actualPrice}</s> ${discountPercentage}`
             : actualPrice;
 
         const addButton = document.createElement("button");
         addButton.textContent = "Добавить";
         addButton.className = "add-to-cart-btn";
 
-        // Событие для добавления в localStorage
         addButton.addEventListener("click", () => {
             addToLocalStorage(item.id);
-            card.classList.add("selected"); // Подсвечиваем карточку
+            card.classList.add("selected"); 
         });
 
         card.appendChild(img);
@@ -125,6 +147,7 @@ function renderGoods(goods) {
         productsGrid.appendChild(card);
     });
 }
+
 
 // Функция для загрузки товаров и обновления состояния кнопки "Загрузить ещё"
 async function loadGoods() {
